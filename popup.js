@@ -41,7 +41,8 @@ function httpGet(theUrl) {
 }
 
 function findMatches(content, url, searchTerm, lastTag){
-    console.log(content); 
+    console.log(content);
+    content = content.replace(/(<([^>]+)>)/ig,"");
     var n = content.search(searchTerm);
     console.log(n);
 
@@ -53,7 +54,7 @@ function findMatches(content, url, searchTerm, lastTag){
         a.setAttribute('href', url);
         a.innerHTML = url;
         var para = document.createElement('p');
-        para.innerHTML = '\n' + content.substring(n - 100, n + 100) + '\n';
+        para.innerHTML = '\n' + content.substring(n - 200, n + 200) + '\n';
 
         div.appendChild(a);
         div.appendChild(para);
