@@ -10,8 +10,7 @@ Made this to help facilitate reading homeworks where the questions are just Cont
 
 - [ ] Better CSS
 
-- [ ] Async loading (very slow rn)
-
+- [x] Async loading
 
 ## Screenshot
 ![screenshot](https://chadpaste.com/f/pfb.png)
