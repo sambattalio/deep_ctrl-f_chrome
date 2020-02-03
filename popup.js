@@ -8,29 +8,21 @@ search.onclick = function(element) {
             function (test){ 
                 console.log(text);
                 arr = test[0];
-                var content = null;
                 var lastTag = search;
-                parser = new DOMParser();
                 for (var i = 0; i < arr.length; i++) {
-                    // TODO Async function
-                    content = httpGet(arr[i]);
-                    var n = content.search(text);
-                    if (n != -1) {
-                        var div = document.createElement('div');
-                        div.setAttribute('class', 'matched');
-
-                        var a = document.createElement('a');
-                        a.setAttribute('href', arr[i]);
-                        a.innerHTML = arr[i];
-                        var para = document.createElement('p');
-                        para.innerHTML = '\n' + content.substring(n - 100, n + 100) + '\n';
-
-                        div.appendChild(a);
-                        div.appendChild(para);
-
-                        lastTag.parentNode.insertBefore(div, lastTag.nextSibling);
-                        lastTag = div;
-                    }
+                    (function(arr, i){
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("GET", arr[i], true);
+                        xhr.onload = function(e) {
+                            let url = arr[i]; 
+                            console.log
+                            findMatches(xhr.responseText, url, text, lastTag);
+                        };
+                        xhr.onerror = function() {
+                            console.error("Error occured with XMLHTTPRequest");
+                        }
+                        xhr.send();
+                    })(arr, i);
                 }
             })
       })
@@ -39,12 +31,35 @@ search.onclick = function(element) {
 
 
 
-function httpGet(theUrl)
-{
+function httpGet(theUrl) {
     var xmlHttp = null;
 
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false );
     xmlHttp.send( null );
     return xmlHttp.responseText;
+}
+
+function findMatches(content, url, searchTerm, lastTag){
+    console.log(content); 
+    var n = content.search(searchTerm);
+    console.log(n);
+
+    if (n != -1) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'matched');
+
+        var a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.innerHTML = url;
+        var para = document.createElement('p');
+        para.innerHTML = '\n' + content.substring(n - 100, n + 100) + '\n';
+
+        div.appendChild(a);
+        div.appendChild(para);
+
+        lastTag.parentNode.insertBefore(div, lastTag.nextSibling);
+        lastTag = div;
+        console.log("here");
+    }
 }
