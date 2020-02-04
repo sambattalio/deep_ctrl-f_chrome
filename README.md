@@ -13,4 +13,4 @@ Made this to help facilitate reading homeworks where the questions are just Cont
 - [x] Async loading
 
 ## Screenshot
-![screenshot](https://chadpaste.com/f/pfb.png)
+![screenshot](https://chadpaste.com/f/uza.png)
