@@ -3,9 +3,10 @@
     <head>
         <style>
             button {
-                height: 30px;
-                width: 30px;
+                height: 10px;
+                width: auto;
                 outline: none;
+                text-align: center;
             }
             div {
                 border:1px solid black;
@@ -19,8 +20,10 @@
         </style>
     </head>
     <body>
-        <input id="searchParam" type="text">
-        <button id="searchPage"></button>
+        Text to search:<input id="searchParam" type="text">
+        <button id="searchPage">Search!</button>
+        </br>Characters to show:</br>
+        <input id="charCount" type="number" value="240">
         <script src="popup.js"></script>
     </body>
 </html>

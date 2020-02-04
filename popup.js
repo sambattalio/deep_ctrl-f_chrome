@@ -6,9 +6,10 @@ search.onclick = function(element) {
         chrome.tabs.executeScript(tabs[0].id,
             { code: `var arr = [], links = document.links; for (var i = 0; i < links.length; i++){arr.push(links[i].href);} arr;` },
             function (test){ 
-                console.log(text);
                 arr = test[0];
-                var lastTag = search;
+                var lastTag = document.getElementById('charCount');
+                let chars   = lastTag.value;
+                console.log(chars);
                 for (var i = 0; i < arr.length; i++) {
                     (function(arr, i){
                         let xhr = new XMLHttpRequest();
@@ -16,7 +17,7 @@ search.onclick = function(element) {
                         xhr.onload = function(e) {
                             let url = arr[i]; 
                             console.log
-                            findMatches(xhr.responseText, url, text, lastTag);
+                            findMatches(xhr.responseText, url, text, lastTag, parseInt(chars));
                         };
                         xhr.onerror = function() {
                             console.error("Error occured with XMLHTTPRequest");
@@ -29,11 +30,9 @@ search.onclick = function(element) {
 };
 
 
-function findMatches(content, url, searchTerm, lastTag){
-    console.log(content);
+function findMatches(content, url, searchTerm, lastTag, chars){
     content = content.replace(/(<([^>]+)>)/ig,"");
     var n = content.search(searchTerm);
-    console.log(n);
 
     if (n != -1) {
         var div = document.createElement('div');
@@ -43,13 +42,12 @@ function findMatches(content, url, searchTerm, lastTag){
         a.setAttribute('href', url);
         a.innerHTML = url;
         var para = document.createElement('p');
-        para.innerHTML = '\n' + content.substring(n - 200, n + 200) + '\n';
+        para.innerHTML = '\n' + content.substring(n - chars, n + chars) + '\n';
 
         div.appendChild(a);
         div.appendChild(para);
 
         lastTag.parentNode.insertBefore(div, lastTag.nextSibling);
         lastTag = div;
-        console.log("here");
     }
 }
